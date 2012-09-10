@@ -381,6 +381,7 @@ implements Configurable {
       scan.setStopRow(toBytes(query.getEndKey()));
     }
     addFields(scan, query);
+    addTimeRange(scan,query);
 
     return table.getScanner(scan);
   }
@@ -441,6 +442,18 @@ implements Configurable {
         long startTime = query.getStartTime() > 0 ? query.getStartTime() : 0;
         long endTime = query.getEndTime() > 0 ? query.getEndTime() : Long.MAX_VALUE;
         get.setTimeRange(startTime, endTime);
+      }
+    }
+  }
+
+  private void addTimeRange(Scan scan, Query<K, T> query) throws IOException {
+    if(query.getStartTime() > 0 || query.getEndTime() > 0) {
+      if(query.getStartTime() == query.getEndTime()) {
+        scan.setTimeStamp(query.getStartTime());
+      } else {
+        long startTime = query.getStartTime() > 0 ? query.getStartTime() : 0;
+        long endTime = query.getEndTime() > 0 ? query.getEndTime() : Long.MAX_VALUE;
+        scan.setTimeRange(startTime, endTime);
       }
     }
   }
