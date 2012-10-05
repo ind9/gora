@@ -25,7 +25,6 @@
         <relativePath>../</relativePath>
     </parent>
     <artifactId>gora-core</artifactId>
-    <packaging>bundle</packaging>
 
     <name>Apache Gora :: Core</name>
         <url>http://gora.apache.org</url>
@@ -51,11 +50,6 @@
     	<system>Jenkins</system>
     	<url>https://builds.apache.org/job/Gora-trunk/</url>
     </ciManagement>
-
-    <properties>
-        <osgi.import>*</osgi.import>
-        <osgi.export>org.apache.gora*;version="${project.version}";-noimport:=true</osgi.export>
-    </properties>
 
     <build>
         <directory>target</directory>

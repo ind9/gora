@@ -310,44 +310,7 @@
               <autoVersionSubmodules>true</autoVersionSubmodules>
             </configuration>
           </plugin>
-          <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-          <plugin>
-            <groupId>org.eclipse.m2e</groupId>
-            <artifactId>lifecycle-mapping</artifactId>
-            <version>1.0.0</version>
-            <configuration>
-              <lifecycleMappingMetadata>
-                <pluginExecutions>
-                  <pluginExecution>
-                    <pluginExecutionFilter>
-                      <groupId>org.apache.maven.plugins</groupId>
-                      <artifactId>maven-dependency-plugin</artifactId>
-                      <versionRange>[2.4,)</versionRange>
-                      <goals>
-                        <goal>copy-dependencies</goal>
-                      </goals>
-                    </pluginExecutionFilter>
-                    <action>
-                      <ignore></ignore>
-                    </action>
-                  </pluginExecution>
-                  <pluginExecution>
-                    <pluginExecutionFilter>
-                      <groupId>org.codehaus.mojo</groupId>
-                      <artifactId>build-helper-maven-plugin</artifactId>
-                      <versionRange>[1.7,)</versionRange>
-                      <goals>
-                        <goal>reserve-network-port</goal>
-                      </goals>
-                    </pluginExecutionFilter>
-                    <action>
-                      <ignore></ignore>
-                    </action>
-                  </pluginExecution>
-                </pluginExecutions>
-              </lifecycleMappingMetadata>
-            </configuration>
-          </plugin>
+
 	</plugins>
 	</pluginManagement>
         <plugins>
@@ -392,31 +355,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <version>${maven-bundle-plugin.version}</version>
-                <extensions>true</extensions>
-                <inherited>true</inherited>
-                <configuration>
-                    <instructions>
-                        <Bundle-Name>${project.name}</Bundle-Name>
-                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Export-Package>${osgi.export}</Export-Package>
-                        <Import-Package>${osgi.import}</Import-Package>
-                        <DynamicImport-Package>${osgi.dynamic.import}</DynamicImport-Package>
-                        <Private-Package>${osgi.private}</Private-Package>
-                        <Require-Bundle>${osgi.bundles}</Require-Bundle>
-                        <Bundle-Activator>${osgi.activator}</Bundle-Activator>
-                    </instructions>
-                    <supportedProjectTypes>
-                        <supportedProjectType>jar</supportedProjectType>
-                        <supportedProjectType>war</supportedProjectType>
-                        <supportedProjectType>bundle</supportedProjectType>
-                    </supportedProjectTypes>
-                    <unpackBundle>true</unpackBundle>
-                </configuration>
             </plugin>
          </plugins>
     </build>
@@ -546,16 +484,10 @@
     <modules>
         <module>gora-core</module>
         <module>gora-hbase</module>
-        <module>gora-accumulo</module>
-        <module>gora-cassandra</module>
-        <module>gora-sql</module>
-        <module>gora-tutorial</module>
         <module>sources-dist</module>
     </modules>
 
     <properties>
-        <!-- Dependencies -->
-        <osgi.version>4.2.0</osgi.version>
         <!-- Avro Dependencies -->
         <jackson.version>1.4.2</jackson.version>
         <!-- Hadoop Dependencies -->
