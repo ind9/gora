@@ -18,15 +18,10 @@
 
 package org.apache.gora.hbase.store;
 
-import java.io.IOException;
-import java.util.Arrays;
-
 import junit.framework.Assert;
-
 import org.apache.gora.examples.generated.Employee;
 import org.apache.gora.examples.generated.WebPage;
 import org.apache.gora.hbase.GoraHBaseTestDriver;
-import org.apache.gora.hbase.store.HBaseStore;
 import org.apache.gora.store.DataStore;
 import org.apache.gora.store.DataStoreFactory;
 import org.apache.gora.store.DataStoreTestBase;
@@ -35,6 +30,10 @@ import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.junit.Test;
+
+import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * Test case for HBaseStore.
@@ -120,6 +119,18 @@ public class TestHBaseStore extends DataStoreTestBase {
     Assert.assertEquals("anchor2", anchor2);
     table.close();
   }
+
+    @Test
+    public void assertPutWithWalDisabled(byte[] contentBytes) throws IOException {
+        HTable table = new HTable("WebPage");
+        Get get = new Get(Bytes.toBytes("com.example/http"));
+        org.apache.hadoop.hbase.client.Result result = table.get(get);
+
+        byte[] actualBytes = result.getValue(Bytes.toBytes("content"), null);
+        Assert.assertNotNull(actualBytes);
+        Assert.assertTrue(Arrays.equals(contentBytes, actualBytes));
+        table.close();
+    }
 
 
     @Override
