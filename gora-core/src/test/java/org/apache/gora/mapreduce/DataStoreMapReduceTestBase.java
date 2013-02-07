@@ -18,18 +18,18 @@
 
 package org.apache.gora.mapreduce;
 
-import java.io.IOException;
-
 import org.apache.gora.examples.generated.WebPage;
 import org.apache.gora.store.DataStore;
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.mapred.HadoopTestCase;
-import org.apache.hadoop.mapred.JobConf;
 import org.junit.Before;
 import org.junit.Test;
-
-// Slf4j logging imports
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+
+// Slf4j logging imports
 
 
 /**
@@ -38,11 +38,12 @@ import org.slf4j.LoggerFactory;
  * run the tests.
  */
 @SuppressWarnings("deprecation")
-public abstract class DataStoreMapReduceTestBase extends HadoopTestCase {
+public abstract class DataStoreMapReduceTestBase extends HadoopTestCase2 {
+
   public static final Logger LOG = LoggerFactory.getLogger(DataStoreMapReduceTestBase.class);
 
   private DataStore<String, WebPage> webPageStore;
-  private JobConf job;
+  private Configuration job;
 
   public DataStoreMapReduceTestBase(int mrMode, int fsMode, int taskTrackers,
       int dataNodes) throws IOException {
@@ -58,9 +59,10 @@ public abstract class DataStoreMapReduceTestBase extends HadoopTestCase {
   public void setUp() throws Exception {
     LOG.info("Setting up Hadoop Test Case...");
     try {
-      super.setUp();
-      webPageStore = createWebPageDataStore();
-      job = createJobConf();
+//        super.setUp();
+        webPageStore = createWebPageDataStore();
+        job = createJobConf();
+        job.set("dfs.datanode.data.dir.perm", "755");
     } catch (Exception e) {
       LOG.error("Hadoop Test Case set up failed", e);
       // cleanup

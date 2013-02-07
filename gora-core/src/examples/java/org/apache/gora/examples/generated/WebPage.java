@@ -1,28 +1,21 @@
 package org.apache.gora.examples.generated;
 
-import java.nio.ByteBuffer;
-import java.util.Map;
-import java.util.HashMap;
-import org.apache.avro.Protocol;
-import org.apache.avro.Schema;
 import org.apache.avro.AvroRuntimeException;
-import org.apache.avro.Protocol;
-import org.apache.avro.util.Utf8;
-import org.apache.avro.ipc.AvroRemoteException;
+import org.apache.avro.Schema;
 import org.apache.avro.generic.GenericArray;
-import org.apache.avro.specific.SpecificExceptionBase;
-import org.apache.avro.specific.SpecificRecordBase;
-import org.apache.avro.specific.SpecificRecord;
-import org.apache.avro.specific.SpecificFixed;
+import org.apache.avro.util.Utf8;
+import org.apache.gora.persistency.ListGenericArray;
 import org.apache.gora.persistency.StateManager;
+import org.apache.gora.persistency.StatefulHashMap;
 import org.apache.gora.persistency.impl.PersistentBase;
 import org.apache.gora.persistency.impl.StateManagerImpl;
-import org.apache.gora.persistency.StatefulHashMap;
-import org.apache.gora.persistency.ListGenericArray;
+
+import java.nio.ByteBuffer;
+import java.util.Map;
 
 @SuppressWarnings("all")
 public class WebPage extends PersistentBase {
-  public static final Schema _SCHEMA = Schema.parse("{\"type\":\"record\",\"name\":\"WebPage\",\"namespace\":\"org.apache.gora.examples.generated\",\"fields\":[{\"name\":\"url\",\"type\":\"string\"},{\"name\":\"content\",\"type\":\"bytes\"},{\"name\":\"parsedContent\",\"type\":{\"type\":\"array\",\"items\":\"string\"}},{\"name\":\"outlinks\",\"type\":{\"type\":\"map\",\"values\":\"string\"}},{\"name\":\"metadata\",\"type\":{\"type\":\"record\",\"name\":\"Metadata\",\"fields\":[{\"name\":\"version\",\"type\":\"int\"},{\"name\":\"data\",\"type\":{\"type\":\"map\",\"values\":\"string\"}}]}}]}");
+  public static final Schema _SCHEMA = new Schema.Parser().parse("{\"type\":\"record\",\"name\":\"WebPage\",\"namespace\":\"org.apache.gora.examples.generated\",\"fields\":[{\"name\":\"url\",\"type\":\"string\"},{\"name\":\"content\",\"type\":\"bytes\"},{\"name\":\"parsedContent\",\"type\":{\"type\":\"array\",\"items\":\"string\"}},{\"name\":\"outlinks\",\"type\":{\"type\":\"map\",\"values\":\"string\"}},{\"name\":\"metadata\",\"type\":{\"type\":\"record\",\"name\":\"Metadata\",\"fields\":[{\"name\":\"version\",\"type\":\"int\"},{\"name\":\"data\",\"type\":{\"type\":\"map\",\"values\":\"string\"}}]}}]}");
   public static enum Field {
     URL(0,"url"),
     CONTENT(1,"content"),

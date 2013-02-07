@@ -18,9 +18,6 @@
 
 package org.apache.gora.avro;
 
-import java.io.IOException;
-import java.util.Map.Entry;
-
 import org.apache.avro.Schema;
 import org.apache.avro.Schema.Field;
 import org.apache.avro.io.Encoder;
@@ -31,6 +28,9 @@ import org.apache.gora.persistency.State;
 import org.apache.gora.persistency.StateManager;
 import org.apache.gora.persistency.StatefulMap;
 import org.apache.gora.util.IOUtils;
+
+import java.io.IOException;
+import java.util.Map.Entry;
 
 /**
  * PersistentDatumWriter writes, fields' dirty and readable information.
@@ -94,7 +94,7 @@ public class PersistentDatumWriter<T extends Persistent>
 
       for (Field field : schema.getFields()) {
         if(readableFields[field.pos()]) {
-          write(field.schema(), getField(datum, field.name(), field.pos()), out);
+          write(field.schema(), getData().getField(datum, field.name(), field.pos()), out);
         }
       }
 

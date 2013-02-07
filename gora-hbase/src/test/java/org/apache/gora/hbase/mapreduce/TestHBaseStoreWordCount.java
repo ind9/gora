@@ -23,7 +23,6 @@ import org.apache.gora.examples.generated.WebPage;
 import org.apache.gora.hbase.store.HBaseStore;
 import org.apache.gora.mapreduce.MapReduceTestUtils;
 import org.apache.gora.store.DataStoreFactory;
-import org.apache.hadoop.hbase.HBaseClusterTestCase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,15 +30,13 @@ import org.junit.Test;
 /**
  * Tests related to {@link org.apache.gora.hbase.store.HBaseStore} using mapreduce.
  */
-public class TestHBaseStoreWordCount extends HBaseClusterTestCase{
+public class TestHBaseStoreWordCount extends TestHBaseClusterCase{
 
   private HBaseStore<String, WebPage> webPageStore;
   private HBaseStore<String, TokenDatum> tokenStore;
   
   @Before
-  @Override
   public void setUp() throws Exception {
-    super.setUp();
     webPageStore = DataStoreFactory.getDataStore(
         HBaseStore.class, String.class, WebPage.class, conf);
     tokenStore = DataStoreFactory.getDataStore(HBaseStore.class, 
@@ -47,11 +44,9 @@ public class TestHBaseStoreWordCount extends HBaseClusterTestCase{
   }
 
   @After
-  @Override
   public void tearDown() throws Exception {
     webPageStore.close();
     tokenStore.close();
-    super.tearDown();
   }
 
   @Test

@@ -1,24 +1,10 @@
 package org.apache.gora.examples.generated;
 
-import java.nio.ByteBuffer;
-import java.util.Map;
-import java.util.HashMap;
-import org.apache.avro.Protocol;
-import org.apache.avro.Schema;
 import org.apache.avro.AvroRuntimeException;
-import org.apache.avro.Protocol;
-import org.apache.avro.util.Utf8;
-import org.apache.avro.ipc.AvroRemoteException;
-import org.apache.avro.generic.GenericArray;
-import org.apache.avro.specific.SpecificExceptionBase;
-import org.apache.avro.specific.SpecificRecordBase;
-import org.apache.avro.specific.SpecificRecord;
-import org.apache.avro.specific.SpecificFixed;
+import org.apache.avro.Schema;
 import org.apache.gora.persistency.StateManager;
 import org.apache.gora.persistency.impl.PersistentBase;
 import org.apache.gora.persistency.impl.StateManagerImpl;
-import org.apache.gora.persistency.StatefulHashMap;
-import org.apache.gora.persistency.ListGenericArray;
 
 @SuppressWarnings("all")
 public class TokenDatum extends PersistentBase {

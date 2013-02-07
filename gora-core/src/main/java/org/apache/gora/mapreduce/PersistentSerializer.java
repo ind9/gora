@@ -17,13 +17,14 @@
  */
 package org.apache.gora.mapreduce;
 
-import java.io.IOException;
-import java.io.OutputStream;
-
 import org.apache.avro.io.BinaryEncoder;
+import org.apache.avro.io.EncoderFactory;
 import org.apache.gora.avro.PersistentDatumWriter;
 import org.apache.gora.persistency.Persistent;
 import org.apache.hadoop.io.serializer.Serializer;
+
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * Hadoop serializer using {@link PersistentDatumWriter} 
@@ -45,7 +46,7 @@ public class PersistentSerializer implements Serializer<Persistent> {
 
   @Override
   public void open(OutputStream out) throws IOException {
-    encoder = new BinaryEncoder(out);
+    encoder = new EncoderFactory().binaryEncoder(out, null);
   }
 
   @Override

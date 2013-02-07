@@ -18,29 +18,21 @@
 
 package org.apache.gora.util;
 
-import java.io.ByteArrayInputStream;
-import java.io.DataInput;
-import java.io.DataInputStream;
-import java.io.DataOutput;
-import java.io.DataOutputStream;
-import java.io.EOFException;
-import java.io.IOException;
-import java.util.Arrays;
-
 import junit.framework.Assert;
-
-import org.apache.avro.ipc.ByteBufferInputStream;
-import org.apache.avro.ipc.ByteBufferOutputStream;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.avro.util.ByteBufferInputStream;
+import org.apache.avro.util.ByteBufferOutputStream;
 import org.apache.gora.mapreduce.GoraMapReduceUtils;
-import org.apache.gora.util.IOUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.DataInputBuffer;
 import org.apache.hadoop.io.DataOutputBuffer;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.*;
+import java.util.Arrays;
 
 /**
  * Test case for {@link IOUtils} class.
@@ -112,6 +104,8 @@ public class TestIOUtils {
         IOUtils.serialize(conf, dos , before, (Class<T>)before.getClass());
         dos.flush();
       }
+
+        System.out.println(dos.size());
        
       is = new ByteBufferInputStream(os.getBufferList());
       dis = new DataInputStream(is);
@@ -120,8 +114,10 @@ public class TestIOUtils {
         T after = IOUtils.deserialize(conf, dis, null, (Class<T>)before.getClass());
         
         log.info("Before: " + before);
+          System.out.println("Before: " + before);
         log.info("After : " + after);
-        
+          System.out.println("After : " + after);
+
         Assert.assertEquals(before, after);
       }
       

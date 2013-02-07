@@ -17,9 +17,6 @@
  */
 package org.apache.gora.mapreduce;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import org.apache.avro.Schema;
 import org.apache.avro.io.BinaryDecoder;
 import org.apache.avro.io.DecoderFactory;
@@ -27,6 +24,9 @@ import org.apache.gora.avro.PersistentDatumReader;
 import org.apache.gora.persistency.Persistent;
 import org.apache.gora.util.AvroUtils;
 import org.apache.hadoop.io.serializer.Deserializer;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
 * Hadoop deserializer using {@link PersistentDatumReader}
@@ -60,8 +60,7 @@ public class PersistentDeserializer
      * is advanced to point to the right location, so we should not
      * buffer the whole input stream at once.
      */
-    decoder = new DecoderFactory().configureDirectDecoder(true)
-      .createBinaryDecoder(in, decoder);
+    decoder = new DecoderFactory().directBinaryDecoder(in, decoder);
   }
 
   @Override

@@ -80,7 +80,7 @@ public class TestHBaseStore extends DataStoreTestBase {
 
   @Override
   public void assertPutArray() throws IOException { 
-    HTable table = new HTable("WebPage");
+    HTable table = new HTable(conf,"WebPage");
     Get get = new Get(Bytes.toBytes("com.example/http"));
     org.apache.hadoop.hbase.client.Result result = table.get(get);
     
@@ -96,7 +96,7 @@ public class TestHBaseStore extends DataStoreTestBase {
   
   @Override
   public void assertPutBytes(byte[] contentBytes) throws IOException {    
-    HTable table = new HTable("WebPage");
+    HTable table = new HTable(conf,"WebPage");
     Get get = new Get(Bytes.toBytes("com.example/http"));
     org.apache.hadoop.hbase.client.Result result = table.get(get);
     
@@ -108,7 +108,7 @@ public class TestHBaseStore extends DataStoreTestBase {
   
   @Override
   public void assertPutMap() throws IOException {
-    HTable table = new HTable("WebPage");
+    HTable table = new HTable(conf,"WebPage");
     Get get = new Get(Bytes.toBytes("com.example/http"));
     org.apache.hadoop.hbase.client.Result result = table.get(get);
     
@@ -122,7 +122,7 @@ public class TestHBaseStore extends DataStoreTestBase {
 
     @Test
     public void assertPutWithWalDisabled(byte[] contentBytes) throws IOException {
-        HTable table = new HTable("WebPage");
+        HTable table = new HTable(conf,"WebPage");
         Get get = new Get(Bytes.toBytes("com.example/http"));
         org.apache.hadoop.hbase.client.Result result = table.get(get);
 

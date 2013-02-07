@@ -18,19 +18,7 @@
 
 package org.apache.gora.avro.store;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.util.Properties;
-
-import org.apache.avro.io.BinaryDecoder;
-import org.apache.avro.io.BinaryEncoder;
-import org.apache.avro.io.DatumReader;
-import org.apache.avro.io.DatumWriter;
-import org.apache.avro.io.Decoder;
-import org.apache.avro.io.Encoder;
-import org.apache.avro.io.JsonDecoder;
-import org.apache.avro.io.JsonEncoder;
+import org.apache.avro.io.*;
 import org.apache.avro.specific.SpecificDatumReader;
 import org.apache.avro.specific.SpecificDatumWriter;
 import org.apache.gora.avro.query.AvroQuery;
@@ -44,6 +32,11 @@ import org.apache.gora.store.impl.FileBackedDataStoreBase;
 import org.apache.gora.util.OperationNotSupportedException;
 import org.apache.hadoop.conf.Configurable;
 import org.apache.hadoop.conf.Configuration;
+
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+import java.util.Properties;
 
 /**
  * An adapter DataStore for binary-compatible Avro serializations.
@@ -200,9 +193,9 @@ public class AvroStore<K, T extends Persistent>
   protected Encoder createEncoder() throws IOException {
     switch(codecType) {
       case BINARY:
-        return new BinaryEncoder(getOrCreateOutputStream());
+        return new EncoderFactory().binaryEncoder(getOrCreateOutputStream(), null);
       case JSON:
-        return new JsonEncoder(schema, getOrCreateOutputStream());
+        return new EncoderFactory().jsonEncoder(schema, getOrCreateOutputStream());
     }
     return null;
   }
@@ -211,9 +204,9 @@ public class AvroStore<K, T extends Persistent>
   protected Decoder createDecoder() throws IOException {
     switch(codecType) {
       case BINARY:
-        return new BinaryDecoder(getOrCreateInputStream());
+        return new DecoderFactory().binaryDecoder(getOrCreateInputStream(), null);
       case JSON:
-        return new JsonDecoder(schema, getOrCreateInputStream());
+        return new DecoderFactory().jsonDecoder(schema, getOrCreateInputStream());
     }
     return null;
   }

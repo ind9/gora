@@ -18,47 +18,30 @@
 
 package org.apache.gora.persistency;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.avro.Schema;
 import org.apache.avro.generic.GenericArray;
 import org.apache.avro.generic.GenericData;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 /**
  * An {@link ArrayList} based implementation of Avro {@link GenericArray}.
  */
-public class ListGenericArray<T> implements GenericArray<T>
+public class ListGenericArray<T> extends ArrayList<T> implements GenericArray<T>
   , Comparable<ListGenericArray<T>> {
 
   private static final int LIST_DEFAULT_SIZE = 10;
-  
-  private List<T> list;
-  private Schema schema;
 
-  public ListGenericArray(Schema schema, List<T> list) {
-    this.schema = schema;
-    this.list = list;
-  }
+  private Schema schema;
 
   public ListGenericArray(Schema schema) {
     this(LIST_DEFAULT_SIZE, schema);
   }
-  
+
   public ListGenericArray(int size, Schema schema) {
     this.schema = schema;
-    this.list = new ArrayList<T>(size);
-  }
-
-  @Override
-  public void add(T element) {
-    list.add(element);
-  }
-
-  @Override
-  public void clear() {
-    list.clear();
+    this.ensureCapacity(size);
   }
 
   @Override
@@ -67,23 +50,13 @@ public class ListGenericArray<T> implements GenericArray<T>
   }
 
   @Override
-  public long size() {
-    return list.size();
-  }
-
-  @Override
-  public Iterator<T> iterator() {
-    return list.iterator();
+  public void reverse() {
+      Collections.reverse(this);
   }
 
   @Override
   public Schema getSchema() {
     return schema;
-  }
-
-  @Override
-  public int hashCode() {
-    return this.list.hashCode();
   }
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -100,10 +73,5 @@ public class ListGenericArray<T> implements GenericArray<T>
   @Override
   public int compareTo(ListGenericArray<T> o) {
     return GenericData.get().compare(this, o, schema);
-  }
-  
-  @Override
-  public String toString() {
-    return list.toString();
   }
 }

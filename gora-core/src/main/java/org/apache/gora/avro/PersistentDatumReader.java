@@ -18,13 +18,6 @@
 
 package org.apache.gora.avro;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.WeakHashMap;
-
 import org.apache.avro.Schema;
 import org.apache.avro.Schema.Field;
 import org.apache.avro.generic.GenericArray;
@@ -33,13 +26,16 @@ import org.apache.avro.io.ResolvingDecoder;
 import org.apache.avro.specific.SpecificDatumReader;
 import org.apache.avro.util.Utf8;
 import org.apache.gora.mapreduce.FakeResolvingDecoder;
-import org.apache.gora.persistency.ListGenericArray;
-import org.apache.gora.persistency.Persistent;
-import org.apache.gora.persistency.State;
-import org.apache.gora.persistency.StatefulHashMap;
-import org.apache.gora.persistency.StatefulMap;
+import org.apache.gora.persistency.*;
 import org.apache.gora.persistency.impl.StateManagerImpl;
 import org.apache.gora.util.IOUtils;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.WeakHashMap;
 
 /**
  * PersistentDatumReader reads, fields' dirty and readable information.
@@ -106,7 +102,7 @@ public class PersistentDatumReader<T extends Persistent>
   throws IOException {
     ResolvingDecoder resolvingDecoder = decoderCache.get(decoder);
     if(resolvingDecoder == null) {
-      resolvingDecoder = new FakeResolvingDecoder(rootSchema, decoder);
+      resolvingDecoder = new FakeResolvingDecoder(rootSchema, decoder).get();
       decoderCache.put(decoder, resolvingDecoder);
     }
     return resolvingDecoder;
@@ -134,8 +130,8 @@ public class PersistentDatumReader<T extends Persistent>
         if(readableFields[f.pos()]) {
           int pos = f.pos();
           String name = f.name();
-          Object oldDatum = (old != null) ? getField(record, name, pos) : null;
-          setField(record, name, pos, read(oldDatum, f.schema(), in));
+          Object oldDatum = (old != null) ? getData().getField(record, name, pos) : null;
+          getData().setField(record, name, pos, read(oldDatum, f.schema(), in));
         }
       }
 
@@ -156,8 +152,8 @@ public class PersistentDatumReader<T extends Persistent>
       for (Field f : expected.getFields()) {
         int pos = f.pos();
         String name = f.name();
-        Object oldDatum = (old != null) ? getField(record, name, pos) : null;
-        setField(record, name, pos, read(oldDatum, f.schema(), in));
+        Object oldDatum = (old != null) ? getData().getField(record, name, pos) : null;
+        getData().setField(record, name, pos, read(oldDatum, f.schema(), in));
       }
 
       return record;

@@ -478,7 +478,8 @@ public class HBaseStore<K, T extends Persistent> extends DataStoreBase<K, T>
                     for (Entry<byte[], byte[]> e : qualMap.entrySet()) {
                         arrayList.add(fromBytes(valueSchema, e.getValue()));
                     }
-                    ListGenericArray arr = new ListGenericArray(fieldSchema, arrayList);
+                    ListGenericArray arr = new ListGenericArray(fieldSchema);
+                    arr.addAll(arrayList);
                     setField(persistent, field, arr);
                     break;
                 default:
